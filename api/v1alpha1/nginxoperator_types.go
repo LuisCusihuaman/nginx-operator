@@ -26,7 +26,7 @@ import (
 // NginxOperatorSpec defines the desired state of NginxOperator
 type NginxOperatorSpec struct {
     // Port is the port nubmer to expose on the Nginx pod
-    Port *int32 `json: "port,omitempty"`
+    Port *int32 `json:"port,omitempty"`
     // Replicas ins the number of deployment replicas to scale
     Replicas *int32 `json:"replicas,omitempty"`
     // ForceRedeploy is any string, modifying this field
