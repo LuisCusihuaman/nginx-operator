@@ -49,7 +49,6 @@ type NginxOperatorReconciler struct {
 func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
 
-	// TODO(user): your logic here
 
 	return ctrl.Result{}, nil
 }
