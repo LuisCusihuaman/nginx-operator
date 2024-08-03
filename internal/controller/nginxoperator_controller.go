@@ -18,7 +18,7 @@ package controller
 
 import (
 	"context"
-
+	"github.com/example/nginx-operator/internal/controller/metrics"
 	apiv2 "github.com/operator-framework/api/pkg/operators/v2"
 	appsv1 "k8s.io/api/apps/v1"
 
@@ -33,10 +33,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	"fmt"
+	"time"
+
 	operatorv1alpha1 "github.com/example/nginx-operator/api/v1alpha1"
 	"github.com/example/nginx-operator/assets"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
-	"time"
 )
 
 // NginxOperatorReconciler reconciles a NginxOperator object
@@ -60,6 +61,7 @@ type NginxOperatorReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.17.3/pkg/reconcile
 func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	metrics.ReconcilesTotal.Inc()
 	logger := log.FromContext(ctx)
 
 	operatorCR := &operatorv1alpha1.NginxOperator{}
@@ -131,7 +133,7 @@ func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		Message:            "operator successfully reconciling",
 	})
 	r.Status().Update(ctx, operatorCR)
-    // MAKE UPGRADABLE OUR OPERATOR
+	// MAKE UPGRADABLE OUR OPERATOR
 	condition, err := conditions.InClusterFactory{Client: r.Client}.
 		NewCondition(apiv2.ConditionType(apiv2.Upgradeable))
 	if err != nil {
