@@ -23,21 +23,28 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+const (
+	ReasonCRNotAvailable          = "OperatorResourceNotAvailable"
+	ReasonDeploymentNotAvailable  = "OperandDeploymentNotAvailable"
+	ReasonOperandDeploymentFailed = "OperandDeploymentFailed"
+	ReasonSucceeded               = "OperatorSucceeded"
+)
+
 // NginxOperatorSpec defines the desired state of NginxOperator
 type NginxOperatorSpec struct {
-    // Port is the port nubmer to expose on the Nginx pod
-    Port *int32 `json:"port,omitempty"`
-    // Replicas ins the number of deployment replicas to scale
-    Replicas *int32 `json:"replicas,omitempty"`
-    // ForceRedeploy is any string, modifying this field
-    // instructs the Operator to redeploy the Operand
-    ForceRedeploy string `json:"ForceRedeploy,omitempty"`
+	// Port is the port nubmer to expose on the Nginx pod
+	Port *int32 `json:"port,omitempty"`
+	// Replicas ins the number of deployment replicas to scale
+	Replicas *int32 `json:"replicas,omitempty"`
+	// ForceRedeploy is any string, modifying this field
+	// instructs the Operator to redeploy the Operand
+	ForceRedeploy string `json:"ForceRedeploy,omitempty"`
 }
 
 // NginxOperatorStatus defines the observed state of NginxOperator
 type NginxOperatorStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Conditions is the list of the most recent status condition updates
+	Conditions []metav1.Condition `json:"conditions"`
 }
 
 //+kubebuilder:object:root=true
