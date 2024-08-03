@@ -17,10 +17,11 @@ limitations under the License.
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"flag"
+	"github.com/operator-framework/operator-lib/leader"
 	"os"
-    "embed"
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
@@ -73,6 +74,14 @@ func main() {
 	flag.Parse()
 
 	ctrl.SetLogger(zap.New(zap.UseFlagOptions(&opts)))
+
+	if !enableLeaderElection {
+		err := leader.Become(context.TODO(), "nginx-operator-lock")
+		if err != nil {
+			setupLog.Error(err, "unable to acquire leader lock")
+			os.Exit(1)
+		}
+	}
 
 	// if the enable-http2 flag is false (the default), http/2 should be disabled
 	// due to its vulnerabilities. More specifically, disabling http/2 will
