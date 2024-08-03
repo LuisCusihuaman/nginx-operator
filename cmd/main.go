@@ -20,8 +20,10 @@ import (
 	"context"
 	"crypto/tls"
 	"flag"
-	"github.com/operator-framework/operator-lib/leader"
 	"os"
+
+	"github.com/operator-framework/operator-lib/leader"
+
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
@@ -36,6 +38,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	operatorv1alpha1 "github.com/example/nginx-operator/api/v1alpha1"
+	operatorv1alpha2 "github.com/example/nginx-operator/api/v1alpha2"
 	"github.com/example/nginx-operator/internal/controller"
 	//+kubebuilder:scaffold:imports
 )
@@ -49,6 +52,7 @@ func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
 	utilruntime.Must(operatorv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(operatorv1alpha2.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -137,6 +141,12 @@ func main() {
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "NginxOperator")
 		os.Exit(1)
+	}
+	if os.Getenv("ENABLE_WEBHOOKS") != "false" {
+		if err = (&operatorv1alpha2.NginxOperator{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "NginxOperator")
+			os.Exit(1)
+		}
 	}
 	//+kubebuilder:scaffold:builder
 

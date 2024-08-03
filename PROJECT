@@ -20,4 +20,15 @@ resources:
   kind: NginxOperator
   path: github.com/example/nginx-operator/api/v1alpha1
   version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: example.com
+  group: operator
+  kind: NginxOperator
+  path: github.com/example/nginx-operator/api/v1alpha2
+  version: v1alpha2
+  webhooks:
+    conversion: true
+    webhookVersion: v1
 version: "3"

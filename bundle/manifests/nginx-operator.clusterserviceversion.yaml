@@ -21,7 +21,7 @@ metadata:
     createdAt: "2024-08-03T15:51:55Z"
     operators.operatorframework.io/builder: operator-sdk-v1.36.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
-  name: nginx-operator.v0.0.1
+  name: nginx-operator.V0.0.2
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -225,4 +225,4 @@ spec:
   provider:
     name: eduardo cusihuaman
     url: https://github.com/LuisCusihuaman
-  version: 0.0.1
+  version: 0.0.2

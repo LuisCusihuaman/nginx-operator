@@ -18,6 +18,7 @@ package controller
 
 import (
 	"context"
+	operatorv1alpha2 "github.com/example/nginx-operator/api/v1alpha2"
 	"github.com/example/nginx-operator/assets"
 	"github.com/example/nginx-operator/internal/controller/metrics"
 	apiv2 "github.com/operator-framework/api/pkg/operators/v2"
@@ -64,7 +65,7 @@ func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	metrics.ReconcilesTotal.Inc()
 	logger := log.FromContext(ctx)
 
-	operatorCR := &operatorv1alpha1.NginxOperator{}
+	operatorCR := &operatorv1alpha2.NginxOperator{}
 	err := r.Get(ctx, req.NamespacedName, operatorCR)
 	if err != nil && errors.IsNotFound(err) {
 		logger.Info("Operator resource object not found.")
@@ -74,7 +75,7 @@ func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		meta.SetStatusCondition(&operatorCR.Status.Conditions, metav1.Condition{
 			Type:               "OperatorDegraded",
 			Status:             metav1.ConditionTrue,
-			Reason:             operatorv1alpha1.ReasonCRNotAvailable,
+			Reason:             operatorv1alpha2.ReasonCRNotAvailable,
 			LastTransitionTime: metav1.NewTime(time.Now()),
 			Message:            fmt.Sprintf("unable to get operator custom resource: %s", err.Error()),
 		})
@@ -92,7 +93,7 @@ func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		meta.SetStatusCondition(&operatorCR.Status.Conditions, metav1.Condition{
 			Type:               "OperatorDegraded",
 			Status:             metav1.ConditionTrue,
-			Reason:             operatorv1alpha1.ReasonDeploymentNotAvailable,
+			Reason:             operatorv1alpha2.ReasonDeploymentNotAvailable,
 			LastTransitionTime: metav1.NewTime(time.Now()),
 			Message:            fmt.Sprintf("unable to get operand deployment: %s", err.Error()),
 		})
@@ -104,8 +105,8 @@ func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	if operatorCR.Spec.Replicas != nil {
 		deployment.Spec.Replicas = operatorCR.Spec.Replicas
 	}
-	if operatorCR.Spec.Port != nil {
-		deployment.Spec.Template.Spec.Containers[0].Ports[0].ContainerPort = *operatorCR.Spec.Port
+	if len(operatorCR.Spec.Ports) > 0 {
+		deployment.Spec.Template.Spec.Containers[0].Ports = operatorCR.Spec.Ports
 	}
 	ctrl.SetControllerReference(operatorCR, deployment, r.Scheme)
 
@@ -118,7 +119,7 @@ func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		meta.SetStatusCondition(&operatorCR.Status.Conditions, metav1.Condition{
 			Type:               "OperatorDegraded",
 			Status:             metav1.ConditionTrue,
-			Reason:             operatorv1alpha1.ReasonOperandDeploymentFailed,
+			Reason:             operatorv1alpha2.ReasonOperandDeploymentFailed,
 			LastTransitionTime: metav1.NewTime(time.Now()),
 			Message:            fmt.Sprintf("unable to update operand deployment: %s", err.Error()),
 		})
@@ -128,7 +129,7 @@ func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	meta.SetStatusCondition(&operatorCR.Status.Conditions, metav1.Condition{
 		Type:               "OperatorDegraded",
 		Status:             metav1.ConditionFalse,
-		Reason:             operatorv1alpha1.ReasonSucceeded,
+		Reason:             operatorv1alpha2.ReasonSucceeded,
 		LastTransitionTime: metav1.NewTime(time.Now()),
 		Message:            "operator successfully reconciling",
 	})

@@ -7,10 +7,19 @@
 ## Getting Started
 
 ### Prerequisites
+- cert manager (conversion from alpha1 to alpha2)
 - go version v1.21.0+
 - docker version 17.03+.
 - kubectl version v1.11.3+.
 - Access to a Kubernetes v1.11.3+ cluster.
+
+### Install cert manager
+
+https://cert-manager.io/docs/installation/
+
+```bash
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.2/cert-manager.yaml
+```
 
 ### To Deploy on the cluster
 **Build and push your image to the location specified by `IMG`:**
