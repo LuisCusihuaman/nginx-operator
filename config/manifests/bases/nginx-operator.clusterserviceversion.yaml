@@ -14,6 +14,11 @@ spec:
       displayName: Nginx Operator
       kind: NginxOperator
       name: nginxoperators.operator.example.com
+      version: v1alpha2
+    - description: NginxOperator is the Schema for the nginxoperators API
+      displayName: Nginx Operator
+      kind: NginxOperator
+      name: nginxoperators.operator.example.com
       version: v1alpha1
   description: Nginx Operator in order to deploy nginx pods
   displayName: NginxOperator
