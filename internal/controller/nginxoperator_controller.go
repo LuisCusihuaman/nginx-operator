@@ -18,6 +18,7 @@ package controller
 
 import (
 	"context"
+	"github.com/example/nginx-operator/assets"
 	"github.com/example/nginx-operator/internal/controller/metrics"
 	apiv2 "github.com/operator-framework/api/pkg/operators/v2"
 	appsv1 "k8s.io/api/apps/v1"
@@ -36,7 +37,6 @@ import (
 	"time"
 
 	operatorv1alpha1 "github.com/example/nginx-operator/api/v1alpha1"
-	"github.com/example/nginx-operator/assets"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 

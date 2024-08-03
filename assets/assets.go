@@ -30,8 +30,8 @@ func GetDeploymentFromFile(name string) *appsv1.Deployment {
 	deploymentObject, err := runtime.Decode(
 		appsCodecs.UniversalDecoder(appsv1.SchemeGroupVersion),
 		deploymentBytes)
-    if err != nil {
-        panic(err)
-    }
-    return deploymentObject.(*appsv1.Deployment)
+	if err != nil {
+		panic(err)
+	}
+	return deploymentObject.(*appsv1.Deployment)
 }
