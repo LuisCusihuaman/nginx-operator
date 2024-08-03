@@ -1,4 +1,4 @@
-apiVersion: operator.example.com/v1alpha1
+apiVersion: operator.example.com/v1alpha2
 kind: NginxOperator
 metadata:
   labels:
@@ -7,4 +7,5 @@ metadata:
   name: nginxoperator-sample
 spec:
   replicas: 1
-  port: 80
+  ports:
+    - 8080

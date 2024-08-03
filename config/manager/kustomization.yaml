@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: docker.io/sample/nginx-operator
-  newTag: v0.1
+  newTag: v0.0.2
