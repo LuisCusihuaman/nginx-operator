@@ -1,36 +1,44 @@
-# nginx-operator
-// TODO(user): Add simple overview of use/purpose
+# nginx-operator 🌀🚀
 
-## Description
-// TODO(user): An in-depth paragraph about your project and overview of use
+A Kubernetes operator to create and manage Nginx pod instances.
 
-## Getting Started
+## Description 📜
 
-### Prerequisites
-- cert manager (conversion from alpha1 to alpha2)
-- go version v1.21.0+
-- docker version 17.03+.
-- kubectl version v1.11.3+.
-- Access to a Kubernetes v1.11.3+ cluster.
+The **nginx-operator** is a powerful Kubernetes operator that automates the management of Nginx instances. 🌐✨ It simplifies
+deployment, scaling, and maintenance of Nginx pods, ensuring high availability and efficient load balancing. With custom
+resource definitions, users can easily control Nginx configurations and streamline deployment processes. Whether
+managing simple web servers or complex proxies, the nginx-operator enhances your Kubernetes environment by handling
+Nginx pod lifecycle management effortlessly. 🚀🛠️
 
-### Install cert manager
+## Getting Started 🚀
+
+### Prerequisites 📋
+
+- 🛡️ cert-manager (conversion from alpha1 to alpha2)
+- 🐹 Go version v1.21.0+
+- 🐳 Docker version 17.03+.
+- 🛠️ kubectl version v1.11.3+.
+- 🌐 Access to a Kubernetes v1.11.3+ cluster.
+
+### Install cert-manager 🛡️
 
 https://cert-manager.io/docs/installation/
 
-```bash
+```sh
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.2/cert-manager.yaml
 ```
 
-### To Deploy on the cluster
+### To Deploy on the Cluster 🚢
+
 **Build and push your image to the location specified by `IMG`:**
 
 ```sh
 make docker-build docker-push IMG=<some-registry>/nginx-operator:tag
 ```
 
-**NOTE:** This image ought to be published in the personal registry you specified.
-And it is required to have access to pull the image from the working environment.
-Make sure you have the proper permission to the registry if the above commands don’t work.
+**NOTE:** This image should be published in the personal registry you specified. Ensure you have access to pull the
+image from the working environment. Make sure you have the proper permission to the registry if the above commands don’t
+work.
 
 **Install the CRDs into the cluster:**
 
@@ -44,80 +52,76 @@ make install
 make deploy IMG=<some-registry>/nginx-operator:tag
 ```
 
-> **NOTE**: If you encounter RBAC errors, you may need to grant yourself cluster-admin
-privileges or be logged in as admin.
+> **NOTE**: If you encounter RBAC errors, you may need to grant yourself cluster-admin privileges or be logged in as
+> admin.
 
-**Create instances of your solution**
+**Create instances of your solution:**
 You can apply the samples (examples) from the config/sample:
 
 ```sh
 kubectl apply -k config/samples/
 ```
 
->**NOTE**: Ensure that the samples has default values to test it out.
+> **NOTE**: Ensure that the samples have default values to test it out.
 
-### To Uninstall
+### To Uninstall 🗑️
+
 **Delete the instances (CRs) from the cluster:**
 
 ```sh
 kubectl delete -k config/samples/
 ```
 
-**Delete the APIs(CRDs) from the cluster:**
+**Delete the APIs (CRDs) from the cluster:**
 
 ```sh
 make uninstall
 ```
 
-**UnDeploy the controller from the cluster:**
+**Undeploy the controller from the cluster:**
 
 ```sh
 make undeploy
 ```
 
-## Project Distribution
+## Project Distribution 📦
 
 Following are the steps to build the installer and distribute this project to users.
 
-1. Build the installer for the image built and published in the registry:
+1. **Build the installer for the image built and published in the registry:**
 
 ```sh
 make build-installer IMG=<some-registry>/nginx-operator:tag
 ```
 
-NOTE: The makefile target mentioned above generates an 'install.yaml'
-file in the dist directory. This file contains all the resources built
-with Kustomize, which are necessary to install this project without
-its dependencies.
+**NOTE:** The makefile target mentioned above generates an 'install.yaml' file in the dist directory. This file contains
+all the resources built with Kustomize, which are necessary to install this project without its dependencies.
 
-2. Using the installer
+2. **Using the installer:**
 
-Users can just run kubectl apply -f <URL for YAML BUNDLE> to install the project, i.e.:
+Users can just run `kubectl apply -f <URL for YAML BUNDLE>` to install the project, i.e.:
 
 ```sh
 kubectl apply -f https://raw.githubusercontent.com/<org>/nginx-operator/<tag or branch>/dist/install.yaml
 ```
 
-## Contributing
-// TODO(user): Add detailed information on how you would like others to contribute to this project
+## Contributing 💡
 
-**NOTE:** Run `make help` for more information on all potential `make` targets
+TODO: Add detailed information on how you would like others to contribute to this project.
 
-More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
+**NOTE:** Run `make help` for more information on all potential `make` targets.
 
-## License
+More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html).
 
-Copyright 2024.
+## License 📄
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+© 2024.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+License. You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "
+AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+language governing permissions and limitations under the License.
