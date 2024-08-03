@@ -18,8 +18,8 @@ package controller
 
 import (
 	"context"
-
 	appsv1 "k8s.io/api/apps/v1"
+
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -40,7 +40,6 @@ type NginxOperatorReconciler struct {
 //+kubebuilder:rbac:groups=operator.example.com,resources=nginxoperators/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=operator.example.com,resources=nginxoperators/finalizers,verbs=update
 //+kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
-
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -96,5 +95,6 @@ func (r *NginxOperatorReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 func (r *NginxOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&operatorv1alpha1.NginxOperator{}).
-		Complete(r)
+		Owns(&appsv1.Deployment{}).
+	Complete(r)
 }
